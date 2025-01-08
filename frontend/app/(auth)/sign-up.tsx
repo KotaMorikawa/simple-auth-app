@@ -1,17 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 
 import { SignUpForm } from "../../components/auth/SignUpForm";
 import { ErrorMessage } from "../../components/ui/ErrorMessage";
 import { api } from "../../lib/api/client";
-import { useAuth } from "../../lib/contexts/auth";
 import type { SignUpInput } from "../../lib/validations/auth";
 
 export default function SignUpScreen() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const { signIn } = useAuth();
   const [isEmailSent, setIsEmailSent] = React.useState(false);
 
   const handleSignUp = async (data: SignUpInput) => {
@@ -19,6 +17,9 @@ export default function SignUpScreen() {
       setIsLoading(true);
       setError(null);
       const response = await api.auth.signUp(data);
+      if (response.error) {
+        throw new Error(response.error);
+      }
       setIsEmailSent(true);
     } catch (error) {
       if (error instanceof Error) {
@@ -58,7 +59,12 @@ export default function SignUpScreen() {
 
       {error && <ErrorMessage message={error} />}
 
-      <SignUpForm onSubmit={handleSignUp} isLoading={isLoading} />
+      <SignUpForm
+        onSubmit={async (data) => {
+          await handleSignUp(data);
+        }}
+        isLoading={isLoading}
+      />
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>すでにアカウントをお持ちですか？</Text>

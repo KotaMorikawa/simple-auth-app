@@ -30,6 +30,7 @@ export const signInSchema = z.object({
     .min(1, "メールアドレスは必須です")
     .email("有効なメールアドレスを入力してください"),
   password: z.string().min(1, "パスワードを入力してください"),
+  code: z.string().optional(),
 });
 
 export const forgotPasswordSchema = z.object({

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Link, router } from "expo-router";
 
@@ -9,17 +9,27 @@ import { useAuth } from "../../lib/contexts/auth";
 import type { SignInInput } from "../../lib/validations/auth";
 
 export default function SignInScreen() {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [requiresOTP, setRequiresOTP] = useState(false); // OTPが必要かどうかの状態を追加
   const { signIn } = useAuth();
 
   const handleSignIn = async (data: SignInInput) => {
     try {
       setIsLoading(true);
       setError(null);
+
       const response = await api.auth.signIn(data);
-      await signIn(response.token, response.user);
-      router.replace("/");
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      if (response.requiresOTP) {
+        setRequiresOTP(true); // OTPが必要な場合、状態を更新
+      } else {
+        await signIn(response.token, response.user);
+        router.replace("/");
+      }
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -42,7 +52,13 @@ export default function SignInScreen() {
 
       {error && <ErrorMessage message={error} />}
 
-      <SignInForm onSubmit={handleSignIn} isLoading={isLoading} />
+      <SignInForm
+        onSubmit={(data) =>
+          handleSignIn({ ...data, code: requiresOTP ? data.code : undefined })
+        }
+        isLoading={isLoading}
+        requiresOTP={requiresOTP}
+      />
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>アカウントをお持ちでないですか？</Text>

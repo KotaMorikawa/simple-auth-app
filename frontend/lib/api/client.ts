@@ -1,4 +1,4 @@
-import { API_URL } from "@env";
+import { API_URL } from "@/config";
 
 interface FetchOptions extends RequestInit {
   token?: string;
@@ -42,31 +42,31 @@ async function fetchAPI(path: string, options: FetchOptions = {}) {
 export const api = {
   auth: {
     signUp: (data: { name: string; email: string; password: string }) =>
-      fetchAPI("/auth/signup", {
+      fetchAPI("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(data),
       }),
 
     signIn: (data: { email: string; password: string }) =>
-      fetchAPI("/auth/signin", {
+      fetchAPI("/api/auth/signin", {
         method: "POST",
         body: JSON.stringify(data),
       }),
 
     verifyEmail: (token: string) =>
-      fetchAPI("/auth/verify-email", {
+      fetchAPI("/api/auth/verify-email", {
         method: "POST",
         body: JSON.stringify({ token }),
       }),
 
     forgotPassword: (data: { email: string }) =>
-      fetchAPI("/auth/forgot-password", {
+      fetchAPI("/api/auth/forgot-password", {
         method: "POST",
         body: JSON.stringify(data),
       }),
 
     resetPassword: (token: string, data: { password: string }) =>
-      fetchAPI("/auth/reset-password", {
+      fetchAPI("/api/auth/reset-password", {
         method: "POST",
         body: JSON.stringify({ token, ...data }),
       }),

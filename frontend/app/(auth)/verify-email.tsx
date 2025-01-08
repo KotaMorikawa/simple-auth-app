@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Link, router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 import { ErrorMessage } from "../../components/ui/ErrorMessage";
 import { Button } from "../../components/ui/Button";
@@ -24,7 +24,10 @@ export default function VerifyEmailScreen() {
     try {
       setIsLoading(true);
       setError(null);
-      await api.auth.verifyEmail(token!);
+      const response = await api.auth.verifyEmail(token!);
+      if (response.error) {
+        throw new Error(response.error);
+      }
       setIsVerified(true);
     } catch (error) {
       if (error instanceof Error) {

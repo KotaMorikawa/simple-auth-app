@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 
 import { ForgotPasswordForm } from "../../components/auth/ForgotPasswordForm";
 import { ErrorMessage } from "../../components/ui/ErrorMessage";
@@ -13,10 +13,13 @@ export default function ForgotPasswordScreen() {
   const [isEmailSent, setIsEmailSent] = React.useState(false);
 
   const handleSubmit = async (data: ForgotPasswordInput) => {
+    setIsLoading(true);
+    setError(null);
     try {
-      setIsLoading(true);
-      setError(null);
-      await api.auth.forgotPassword(data);
+      const response = await api.auth.forgotPassword(data);
+      if (response.error) {
+        throw new Error(response.error);
+      }
       setIsEmailSent(true);
     } catch (error) {
       if (error instanceof Error) {

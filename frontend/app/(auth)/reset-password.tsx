@@ -23,7 +23,10 @@ export default function ResetPasswordScreen() {
     try {
       setIsLoading(true);
       setError(null);
-      await api.auth.resetPassword(token!, data);
+      const response = await api.auth.resetPassword(token!, data);
+      if (response.error) {
+        throw new Error(response.error);
+      }
       setIsSuccess(true);
     } catch (error) {
       if (error instanceof Error) {

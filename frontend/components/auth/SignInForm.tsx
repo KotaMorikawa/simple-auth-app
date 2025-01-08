@@ -10,9 +10,14 @@ import { signInSchema, type SignInInput } from "../../lib/validations/auth";
 interface SignInFormProps {
   onSubmit: (data: SignInInput) => Promise<void>;
   isLoading?: boolean;
+  requiresOTP?: boolean;
 }
 
-export function SignInForm({ onSubmit, isLoading }: SignInFormProps) {
+export function SignInForm({
+  onSubmit,
+  isLoading,
+  requiresOTP,
+}: SignInFormProps) {
   const {
     control,
     handleSubmit,
@@ -22,6 +27,7 @@ export function SignInForm({ onSubmit, isLoading }: SignInFormProps) {
     defaultValues: {
       email: "",
       password: "",
+      code: "",
     },
   });
 
@@ -41,6 +47,15 @@ export function SignInForm({ onSubmit, isLoading }: SignInFormProps) {
         secureTextEntry
         error={errors.password?.message}
       />
+      {requiresOTP && (
+        <Input
+          control={control}
+          name="code"
+          label="認証コード"
+          placeholder="Enter OTP"
+          error={errors.code?.message}
+        />
+      )}
       <Button
         label="ログイン"
         onPress={handleSubmit(onSubmit)}
