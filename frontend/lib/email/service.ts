@@ -1,27 +1,11 @@
-import { Resend } from "resend";
-import { VerificationEmail } from "./templates/VerificationEmail";
-import { ResetPasswordEmail } from "./templates/ResetPasswordEmail";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { emailApi } from "../api/email";
 
 export const emailService = {
   sendVerificationEmail: async (to: string, name: string, token: string) => {
-    const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
-    return await resend.emails.send({
-      from: "noreply@yourdomain.com",
-      to,
-      subject: "メールアドレスの確認",
-      html: VerificationEmail({ name, verificationUrl }),
-    });
+    return await emailApi.sendVerificationEmail(to, name, token);
   },
 
   sendResetPasswordEmail: async (to: string, name: string, token: string) => {
-    const resetUrl = `${process.env.APP_URL}/reset-password?token=${token}`;
-    return await resend.emails.send({
-      from: "noreply@yourdomain.com",
-      to,
-      subject: "パスワードのリセット",
-      html: ResetPasswordEmail({ name, resetUrl }),
-    });
+    return await emailApi.sendResetPasswordEmail(to, name, token);
   },
 };
