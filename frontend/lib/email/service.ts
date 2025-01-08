@@ -11,7 +11,7 @@ export const emailService = {
       from: "noreply@yourdomain.com",
       to,
       subject: "メールアドレスの確認",
-      react: VerificationEmail({ name, verificationUrl }),
+      html: VerificationEmail({ name, verificationUrl }),
     });
   },
 
@@ -21,7 +21,7 @@ export const emailService = {
       from: "noreply@yourdomain.com",
       to,
       subject: "パスワードのリセット",
-      react: ResetPasswordEmail({ name, resetUrl }),
+      html: ResetPasswordEmail({ name, resetUrl }),
     });
   },
 };
