@@ -11,6 +11,8 @@
     "@prisma/adapter-neon": "^6.2.0",
     "@prisma/adapter-pg": "^6.2.0",
     "@prisma/client": "^5.7.1",
+    "@react-email/components": "^0.0.32",
+    "@react-email/render": "^1.0.4",
     "bcryptjs": "^2.4.3",
     "hono": "^3.11.11",
     "jsonwebtoken": "^9.0.2",
@@ -24,6 +26,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^22.10.5",
     "@types/pg": "^8.11.10",
+    "@types/react": "^19.0.3",
     "prisma": "^5.7.1",
     "typescript": "^5.3.3",
     "wrangler": "^3.22.1"

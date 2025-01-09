@@ -1,17 +1,9 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { useAuth } from "../../lib/contexts/auth";
+import { Text, View, StyleSheet } from "react-native";
 
 export default function HomeScreen() {
-  const { user } = useAuth();
-
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>ようこそ、{user?.name}さん！</Text>
-      <Text style={styles.message}>
-        メールアドレスの確認
-        {user?.emailVerified ? "は完了しています" : "が必要です"}
-      </Text>
+      <Text style={styles.title}>ホーム画面</Text>
     </View>
   );
 }
@@ -21,15 +13,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
   },
-  welcome: {
+  title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 8,
-  },
-  message: {
-    fontSize: 16,
-    color: "#666666",
   },
 });

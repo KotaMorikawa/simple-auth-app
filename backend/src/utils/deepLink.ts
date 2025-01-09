@@ -19,10 +19,10 @@ export const createDeepLink = (
   const queryString = new URLSearchParams(params).toString();
 
   if (c.env.WORKER_ENV === "development") {
-    // 環境変数名をWORKER_ENVに変更
-    return `${c.env.APP_URL}/--/${path}?${queryString}`;
+    // exp://をhttps://に置き換える
+    const httpsUrl = c.env.APP_URL.replace("exp://", "https://");
+    return `${httpsUrl}/--/${path}?${queryString}`;
   }
 
-  // 本番環境: myapp://callback?token=abc
   return `${scheme}://${path}?${queryString}`;
 };

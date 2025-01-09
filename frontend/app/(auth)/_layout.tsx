@@ -10,6 +10,7 @@ export default function AuthLayout() {
           headerShown: false,
           contentStyle: styles.content,
         }}
+        initialRouteName="sign-in"
       />
     </View>
   );

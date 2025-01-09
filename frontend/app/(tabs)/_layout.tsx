@@ -1,27 +1,39 @@
-import React from "react";
 import { Tabs } from "expo-router";
-import { Home, User } from "lucide-react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#3B82F6",
-        tabBarInactiveTintColor: "#6B7280",
+        headerShown: true,
+        tabBarActiveTintColor: "#007AFF",
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "ホーム",
-          tabBarIcon: ({ color }) => <Home size={24} stroke={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="home" size={24} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "プロフィール",
-          tabBarIcon: ({ color }) => <User size={24} stroke={color} />,
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="user" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "設定",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="gear" size={24} color={color} />
+          ),
         }}
       />
     </Tabs>

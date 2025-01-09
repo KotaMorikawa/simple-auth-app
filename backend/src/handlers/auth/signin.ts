@@ -16,6 +16,7 @@ export const signin = async (c: Context) => {
     if (!user) {
       return c.json(
         {
+          success: false,
           error: "メールアドレスまたはパスワードが正しくありません",
         },
         400
@@ -25,11 +26,14 @@ export const signin = async (c: Context) => {
     if (!user.emailVerified) {
       return c.json(
         {
+          success: false,
           error: "メールアドレスが確認されていません",
         },
         400
       );
     }
+
+    console.log("user", user);
 
     // 2要素認証が有効な場合
     if (user.isTwoFactorEnabled) {
@@ -42,6 +46,7 @@ export const signin = async (c: Context) => {
         if (!twoFactorToken || twoFactorToken.token !== body.code) {
           return c.json(
             {
+              success: false,
               error: "認証コードが間違っています。",
             },
             400
@@ -52,6 +57,7 @@ export const signin = async (c: Context) => {
         if (hasExpired) {
           return c.json(
             {
+              success: false,
               error: "認証コードが期限切れです。",
             },
             400
@@ -94,6 +100,7 @@ export const signin = async (c: Context) => {
     if (error instanceof z.ZodError) {
       return c.json(
         {
+          success: false,
           error: "バリデーションエラー",
           details: error.errors,
         },
@@ -104,6 +111,7 @@ export const signin = async (c: Context) => {
     console.error("Signin error:", error);
     return c.json(
       {
+        success: false,
         error: "予期せぬエラーが発生しました",
       },
       500
